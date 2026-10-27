@@ -70,8 +70,8 @@
   #escena { will-change: transform; transform-origin: 50% 50%; }
   .video-azul {
     position: relative;
-    width: min(92vw, 1100px);
-    aspect-ratio: 16 / 9;
+    width: min(88vw, 820px);
+    aspect-ratio: 496 / 336;
     max-width: 100%;
     /* Funde los bordes del vídeo con el negro de la página */
     -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%);
