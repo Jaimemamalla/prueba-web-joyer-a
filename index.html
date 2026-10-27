@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Nácar, joyería de barrio</title>
+
+  <!-- Tipografías: M PLUS Rounded 1c (títulos), Nunito (texto), Azeret Mono (etiquetas) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400&family=Nunito:wght@300;400;600;700&family=Azeret+Mono:wght@300;400;500&display=swap">
+
+  <!-- Tailwind CSS v4 desde el Play CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
+
+  <!-- Sistema de diseño propio con @theme -->
+  <style type="text/tailwindcss">
+    @theme {
+      --color-noche: #030409;
+      --color-carbon: #10131c;
+      --color-hielo: #eef2f9;
+      --color-zafiro: #4f86ff;
+      --color-destello: #b9d0ff;
+      --color-humo: #9aa3b5;
+      --font-titulo: "M PLUS Rounded 1c", "Nunito", system-ui, sans-serif;
+      --font-texto: "Nunito", system-ui, sans-serif;
+      --font-etiqueta: "Azeret Mono", ui-monospace, monospace;
+    }
+  </style>
+
+  <!-- Hoja de estilos propia -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="font-texto">
+<div class="relative">
+
+  <!-- Indicador de pasos -->
+  <nav aria-label="Pasos del recorrido" class="indicador fixed z-30 hidden md:flex flex-col gap-3 font-etiqueta text-[10px] uppercase tracking-[0.2em] text-humo">
+    <div class="paso-indicador flex items-center gap-3 justify-end transition-colors" data-activo="true"><span>Portada</span><span class="punto block size-1.5 rounded-full bg-humo transition"></span></div>
+    <div class="paso-indicador flex items-center gap-3 justify-end transition-colors"><span>Detalle</span><span class="punto block size-1.5 rounded-full bg-humo transition"></span></div>
+    <div class="paso-indicador flex items-center gap-3 justify-end transition-colors"><span>Talla</span><span class="punto block size-1.5 rounded-full bg-humo transition"></span></div>
+    <div class="paso-indicador flex items-center gap-3 justify-end transition-colors"><span>Escaparate</span><span class="punto block size-1.5 rounded-full bg-humo transition"></span></div>
+  </nav>
+
+  <!-- Etiqueta de boceto -->
+  <div class="etiqueta-boceto fixed z-30 font-etiqueta text-[10px] uppercase tracking-[0.2em] text-noche bg-hielo rounded-full px-3 py-1.5">
+    Boceto de animación v1
+  </div>
+
+  <!-- Barra de progreso -->
+  <div class="barra fixed left-0 right-0 z-30 h-px bg-humo/20">
+    <div id="progreso" class="h-full bg-zafiro origin-left" style="transform: scaleX(0)"></div>
+  </div>
+
+  <!-- Recorrido con la escena fija -->
+  <section id="recorrido" class="relative">
+    <div class="sticky top-0 h-svh w-full overflow-hidden bg-noche">
+
+      <!-- Vídeo del diamante: lo controla el scroll desde script.js -->
+      <div id="escena" class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+        <div class="video-azul">
+          <video id="diamante" muted playsinline preload="auto">
+            <source src="media/diamante.mp4" type="video/mp4">
+          </video>
+          <span class="tinte"></span>
+        </div>
+      </div>
+
+      <p id="aviso-video" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-xs text-center text-sm text-humo font-etiqueta" hidden>
+        Falta el vídeo. Guárdalo como media/diamante.mp4 junto a index.html.
+      </p>
+
+      <!-- Paso 0: portada -->
+      <div id="paso-0" class="gutter absolute inset-0 flex flex-col justify-between pt-10 pb-20 md:pb-14 pointer-events-none">
+        <p class="font-etiqueta text-[11px] uppercase tracking-[0.25em] text-humo flex flex-wrap gap-x-6 gap-y-1">
+          <span>Joyería de barrio</span><span>Calle de Ponzano 41</span><span>Desde 1987</span>
+        </p>
+        <div class="max-w-3xl">
+          <h1 id="titulo" class="font-titulo font-thin brillo leading-[0.85] text-[28vw] md:text-[15vw] tracking-tight" aria-label="Nácar">Nácar</h1>
+          <p class="mt-4 md:mt-6 max-w-sm text-lg md:text-xl text-hielo/90">Piezas pequeñas que brillan mucho. Plata, oro y piedras, elegidas y arregladas en el barrio.</p>
+          <p class="mt-8 font-etiqueta text-[11px] uppercase tracking-[0.25em] text-destello flex items-center gap-3">
+            <span class="inline-block w-10 h-px bg-destello"></span> Desliza para acercarte
+          </p>
+        </div>
+      </div>
+
+      <!-- Paso 1: fuego -->
+      <div id="paso-1" class="gutter absolute inset-0 flex items-end md:items-center md:justify-end pb-24 md:pb-0 pointer-events-none" style="opacity:0">
+        <div class="max-w-sm md:mr-16">
+          <p class="font-etiqueta text-[11px] uppercase tracking-[0.25em] text-destello flex flex-wrap gap-x-5 gap-y-1">
+            <span>1,02 ct</span><span>Color D</span><span>Pureza VVS1</span>
+          </p>
+          <h2 class="mt-4 font-titulo font-thin text-5xl md:text-6xl leading-[1.05]">Cada piedra, mirada de cerca.</h2>
+          <p class="mt-4 text-hielo/90">Antes de entrar en el escaparate, cada pieza pasa por la lupa de Carmen: color, pureza y brillo.</p>
+        </div>
+      </div>
+
+      <!-- Paso 2: talla -->
+      <div id="paso-2" class="gutter absolute inset-0 flex items-end md:items-center md:justify-end pb-24 md:pb-0 pointer-events-none" style="opacity:0">
+        <div class="max-w-sm md:mr-16">
+          <p class="font-etiqueta text-[11px] uppercase tracking-[0.25em] text-destello">Talla brillante de 57 facetas</p>
+          <h2 class="mt-4 font-titulo font-thin text-5xl md:text-6xl leading-[1.05]">Cortada para devolver la luz.</h2>
+          <dl class="medidas mt-6 font-etiqueta text-sm">
+            <div><dt>Mesa</dt><dd>53 %</dd></div>
+            <div><dt>Corona</dt><dd>34,5°</dd></div>
+            <div><dt>Pabellón</dt><dd>40,8°</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Paso 3: transición a la web -->
+      <div id="paso-3" class="gutter absolute inset-0 flex flex-col justify-center pointer-events-none" style="opacity:0">
+        <p class="font-etiqueta text-[11px] uppercase tracking-[0.25em] text-destello">Aquí empieza la web del comercio</p>
+        <h2 class="mt-4 font-titulo font-thin text-6xl md:text-8xl leading-[0.95] max-w-4xl">Ven a verla al escaparate.</h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Arranque de la web -->
+  <section class="gutter relative py-24 md:py-32 border-t border-humo/20">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <h2 class="font-titulo font-light text-3xl md:text-4xl">Lo que encontrarás dentro</h2>
+        <p class="font-etiqueta text-[11px] uppercase tracking-[0.2em] text-humo">Lunes a viernes de 10:00 a 14:00 y de 17:00 a 20:30. Sábados de 10:30 a 14:00</p>
+      </div>
+
+      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <a href="#recorrido" class="tarjeta block rounded-[28px] p-6 bg-hielo text-noche">
+          <p class="font-etiqueta text-[10px] uppercase tracking-[0.2em] text-noche/70">Colección</p>
+          <h3 class="mt-3 font-titulo font-light text-2xl">Anillos</h3>
+          <p class="mt-6 text-sm text-noche/80">Plata de ley 925 y oro de 18 k.</p>
+          <p class="precio mt-8">desde 45 €</p>
+        </a>
+        <a href="#recorrido" class="tarjeta block rounded-[28px] p-6 bg-hielo text-noche">
+          <p class="font-etiqueta text-[10px] uppercase tracking-[0.2em] text-noche/70">Colección</p>
+          <h3 class="mt-3 font-titulo font-light text-2xl">Collares y colgantes</h3>
+          <p class="mt-6 text-sm text-noche/80">Cadenas a medida y piedras montadas aquí.</p>
+          <p class="precio mt-8">desde 60 €</p>
+        </a>
+        <a href="#recorrido" class="tarjeta block rounded-[28px] p-6 bg-hielo text-noche">
+          <p class="font-etiqueta text-[10px] uppercase tracking-[0.2em] text-noche/70">Taller</p>
+          <h3 class="mt-3 font-titulo font-light text-2xl">Arreglos y grabados</h3>
+          <p class="mt-6 text-sm text-noche/80">Cadenas, cierres, tallas y pilas de reloj.</p>
+          <p class="precio mt-8">en 48 h</p>
+        </a>
+        <a href="#recorrido" class="tarjeta tarjeta-zafiro block rounded-[28px] p-6 bg-zafiro text-noche">
+          <p class="font-etiqueta text-[10px] uppercase tracking-[0.2em] text-noche/80">Novedad</p>
+          <h3 class="mt-3 font-titulo font-light text-2xl">Solitarios de otoño</h3>
+          <p class="mt-6 text-sm text-noche/85">Diamantes de laboratorio en oro blanco.</p>
+          <p class="precio mt-8">15 % menos esta semana</p>
+        </a>
+      </div>
+
+      <div class="mt-12 flex flex-wrap gap-4">
+        <a href="#recorrido" class="boton boton-primario">Cómo llegar</a>
+        <a href="#recorrido" class="boton boton-secundario">Ver colecciones</a>
+      </div>
+
+      <p class="mt-16 max-w-xl text-sm text-humo">Prototipo para enseñar la idea del scroll. La web real seguiría con productos, ofertas, horario, mapa y footer, según el briefing.</p>
+      <p class="mt-3 max-w-xl text-xs text-humo">Vídeo del diamante: poned aquí el crédito del autor y la web de donde lo descarguéis.</p>
+    </div>
+  </section>
+</div>
+
+<!-- Librerías -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<!-- JavaScript propio -->
+<script src="script.js"></script>
+</body>
+</html>

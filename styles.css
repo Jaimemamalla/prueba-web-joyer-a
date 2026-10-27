@@ -1,0 +1,174 @@
+/* Hoja de estilos propia de Nácar.
+   Todo va dentro de capas (@layer) para no pisar las clases de Tailwind:
+   las utilidades de Tailwind (capa utilities) siempre ganan a estas. */
+@layer theme, base, components, utilities;
+
+:root {
+  --noche: #030409;
+  --carbon: #10131c;
+  --hielo: #eef2f9;
+  --zafiro: #4f86ff;
+  --destello: #b9d0ff;
+  --humo: #9aa3b5;
+  color-scheme: dark;
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  html { background: var(--noche); }
+  body {
+    margin: 0;
+    background: var(--noche);
+    color: var(--hielo);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 { text-wrap: balance; }
+  :focus-visible { outline: 2px solid var(--destello); outline-offset: 4px; }
+}
+
+/* ---------- Componentes ---------- */
+@layer components {
+
+  /* Márgenes laterales */
+  .gutter {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  @media (min-width: 768px) {
+    .gutter {
+      padding-left: max(48px, env(safe-area-inset-left, 0px));
+      padding-right: max(48px, env(safe-area-inset-right, 0px));
+    }
+  }
+
+  /* Elementos fijos */
+  #recorrido { height: 520vh; }
+  .indicador { right: max(28px, env(safe-area-inset-right, 0px)); top: 50%; transform: translateY(-50%); }
+  .etiqueta-boceto { left: max(16px, env(safe-area-inset-left, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); font-weight: 500; }
+  .barra { top: env(safe-area-inset-top, 0px); }
+  .paso-indicador[data-activo="true"] { color: var(--destello); }
+  .paso-indicador[data-activo="true"] .punto { background: var(--zafiro); transform: scale(1.6); box-shadow: 0 0 10px var(--zafiro); }
+
+  /* Destello azul que recorre el título */
+  .brillo {
+    background: linear-gradient(100deg, var(--hielo) 0%, var(--hielo) 40%, #ffffff 46%, var(--zafiro) 50%, #ffffff 54%, var(--hielo) 60%, var(--hielo) 100%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: destello 7s ease-in-out infinite;
+  }
+  @keyframes destello {
+    0%, 25% { background-position: 100% 0; }
+    70%, 100% { background-position: 0% 0; }
+  }
+
+  .letra { display: inline-block; }
+
+  /* Vídeo del diamante */
+  #escena { will-change: transform; transform-origin: 50% 50%; }
+  .video-azul {
+    position: relative;
+    width: min(92vw, 1100px);
+    aspect-ratio: 16 / 9;
+    max-width: 100%;
+    /* Funde los bordes del vídeo con el negro de la página */
+    -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%);
+    mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%);
+  }
+  .video-azul video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* Quita el color original y sube un poco el contraste */
+    filter: grayscale(1) contrast(1.15) brightness(.92);
+  }
+  /* Capa azul en modo "color": tiñe de azul sin cambiar las luces y sombras del vídeo */
+  .video-azul .tinte {
+    position: absolute;
+    inset: 0;
+    background: var(--zafiro);
+    mix-blend-mode: color;
+    pointer-events: none;
+  }
+  /* Si el vídeo ya es azul, añade la clase "sin-tinte" al div .video-azul */
+  .video-azul.sin-tinte video { filter: none; }
+  .video-azul.sin-tinte .tinte { display: none; }
+
+  /* Medidas de la talla */
+  .medidas { display: grid; gap: 0; max-width: 18rem; }
+  .medidas div {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(185, 208, 255, .25);
+  }
+  .medidas dt { color: var(--humo); }
+  .medidas dd { margin: 0; color: var(--hielo); font-variant-numeric: tabular-nums; }
+
+  /* Tarjetas: fondo claro sobre negro, texto oscuro */
+  .tarjeta {
+    position: relative;
+    z-index: 1;
+    transition: transform .5s cubic-bezier(.2, .7, .2, 1), box-shadow .4s;
+  }
+  .tarjeta:hover,
+  .tarjeta:focus-visible {
+    transform: translateY(-6px);
+    box-shadow: 0 0 0 3px var(--zafiro), 0 0 40px rgba(79, 134, 255, .45);
+    outline: none;
+  }
+  .tarjeta-zafiro:hover,
+  .tarjeta-zafiro:focus-visible {
+    box-shadow: 0 0 0 3px var(--hielo), 0 0 40px rgba(79, 134, 255, .6);
+  }
+
+  /* Etiqueta de precio: oscura dentro de la tarjeta clara */
+  .precio {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--noche);
+    color: var(--hielo);
+    font-family: "Azeret Mono", ui-monospace, monospace;
+    font-size: .8rem;
+    font-weight: 500;
+  }
+
+  /* Botones */
+  .boton {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: .95rem;
+    letter-spacing: .02em;
+    transition: background-color .3s, color .3s, transform .3s, box-shadow .3s;
+  }
+  .boton-primario { background: var(--hielo); color: var(--noche); }
+  .boton-primario:hover { background: var(--zafiro); box-shadow: 0 0 28px rgba(79, 134, 255, .6); }
+  .boton-secundario { background: transparent; color: var(--hielo); box-shadow: inset 0 0 0 2px var(--hielo); }
+  .boton-secundario:hover { background: var(--hielo); color: var(--noche); }
+  .boton:active { transform: scale(.97); }
+  .boton:focus-visible { outline: 3px solid var(--zafiro); outline-offset: 3px; }
+
+  /* Brillo que cruza el botón al pasar el ratón */
+  .boton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, .55) 50%, transparent 70%);
+    transform: translateX(-120%);
+  }
+  .boton:hover::after { animation: cruce .8s ease; }
+  @keyframes cruce { to { transform: translateX(120%); } }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brillo, .boton:hover::after { animation: none; }
+}

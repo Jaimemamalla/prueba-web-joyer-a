@@ -1,0 +1,11 @@
+Guarda aquí el vídeo del diamante con este nombre exacto:
+
+  diamante.mp4
+
+Para que el giro vaya fino al hacer scroll, conviene convertirlo así con ffmpeg
+(cada fotograma pasa a ser un fotograma clave y se quita el audio):
+
+  ffmpeg -i original.mp4 -vf "scale=1920:-2" -an -c:v libx264 -crf 22 -g 1 -pix_fmt yuv420p -movflags +faststart diamante.mp4
+
+Si el vídeo ya viene azul y no quieres que se vuelva a teñir,
+añade la clase "sin-tinte" al div con clase "video-azul" en index.html.
